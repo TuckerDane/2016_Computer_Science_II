@@ -1,0 +1,1 @@
+Follow instructions via the menu. I'ts relatively straightforward.
