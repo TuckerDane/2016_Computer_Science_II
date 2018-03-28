@@ -17,7 +17,7 @@ using std::cin;
 /***************************************************************************************************
 **	default constructor for Ant
 ***************************************************************************************************/
-DoodleBug::DoodleBug() : Critter('X')
+DoodleBug::DoodleBug() : Critter(DBUG)
 {
 	feedCounter = 0;
 }
@@ -25,7 +25,7 @@ DoodleBug::DoodleBug() : Critter('X')
 /***************************************************************************************************
 **	constructor for Ant
 ***************************************************************************************************/
-DoodleBug::DoodleBug(int row, int col) : Critter('X', row, col)
+DoodleBug::DoodleBug(int row, int col) : Critter(DBUG, row, col)
 {
 	feedCounter = 0;
 }
@@ -63,9 +63,9 @@ void DoodleBug::move(char *surroundings)
 
 	for (int i = 0; i < 4; i++)							// iterate through surroundings and
 	{
-		if (surroundings[i] == 'E')						// add 1 to open space for every open space available
+		if (surroundings[i] == EMPTY)						// add 1 to open space for every open space available
 			openSpace++;
-		if (surroundings[i] == 'O')						// add 1 to antSpace for every bordering ant
+		if (surroundings[i] == ANT)						// add 1 to antSpace for every bordering ant
 			antSpace++;
 	}
 
@@ -77,7 +77,7 @@ void DoodleBug::move(char *surroundings)
 		{
 			int rdir = rand() % 4;						// pick a random direction from 0-3
 
-			if (surroundings[rdir] == 'O')				// if the random direction corresponds to an Ant in the matrix
+			if (surroundings[rdir] == ANT)				// if the random direction corresponds to an Ant in the matrix
 			{
 				if (rdir == 0)							// and if the random direction is up (0)
 				{
@@ -118,7 +118,7 @@ void DoodleBug::move(char *surroundings)
 		{
 			int rdir = rand() % 4;						// pick a random direction from 0-3
 
-			if (surroundings[rdir] == 'E')				// if the random direction corresponds to an Empty space in the matrix
+			if (surroundings[rdir] == EMPTY)				// if the random direction corresponds to an Empty space in the matrix
 			{
 				if (rdir == 0)							// and if the random direction is up (0)
 				{
@@ -172,7 +172,7 @@ DoodleBug* DoodleBug::breed(char *surroundings)
 
 		for (int i = 0; i < 4; i++)											// iterate through surroundings and add 1 to openSpace for every empty space
 		{
-			if (surroundings[i] == 'E')
+			if (surroundings[i] == EMPTY)
 				openSpace++;
 		}
 
@@ -184,7 +184,7 @@ DoodleBug* DoodleBug::breed(char *surroundings)
 			{
 				int rdir = rand() % 4;															// pick a random direction from 0-3
 
-				if (surroundings[rdir] == 'E')													// if the random direction corresponds to an empty space in the matrix
+				if (surroundings[rdir] == EMPTY)													// if the random direction corresponds to an empty space in the matrix
 				{
 					if (rdir == 0)																// and if the random direction is up (0)
 					{

@@ -14,6 +14,10 @@
 
 #include <iostream>
 
+#define EMPTY	' '
+#define ANT		'o'
+#define DBUG	'+'
+
 class Critter
 {
 private:

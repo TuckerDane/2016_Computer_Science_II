@@ -17,14 +17,14 @@ using std::cin;
 /***************************************************************************************************
 **	default constructor for Ant
 ***************************************************************************************************/
-Ant::Ant() : Critter('O')
+Ant::Ant() : Critter(ANT)
 {
 }
 
 /***************************************************************************************************
 **	constructor for Ant
 ***************************************************************************************************/
-Ant::Ant(int row, int col) : Critter('O', row, col)
+Ant::Ant(int row, int col) : Critter(ANT, row, col)
 {
 }
 
@@ -46,7 +46,7 @@ Ant* Ant::breed(char *surroundings)
 
 		for (int i = 0; i < 4; i++)											// iterate through surroundings and add 1 to openSpace for every empty space
 		{
-			if (surroundings[i] == 'E')
+			if (surroundings[i] == EMPTY)
 				openSpace++;
 		}
 
@@ -58,7 +58,7 @@ Ant* Ant::breed(char *surroundings)
 			{
 				int rdir = rand() % 4;											// pick a random direction from 0-3
 
-				if (surroundings[rdir] == 'E')									// if the random direction corresponds to an empty space in the matrix
+				if (surroundings[rdir] == EMPTY)									// if the random direction corresponds to an empty space in the matrix
 				{
 					if (rdir == 0)												// and if the random direction is up (0)
 					{

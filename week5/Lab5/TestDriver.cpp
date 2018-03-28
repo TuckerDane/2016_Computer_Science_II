@@ -16,6 +16,24 @@ using std::endl;
 using std::cin;
 
 /***************************************************************************************************
+**	windows h function to replace screen with nulls
+***************************************************************************************************/
+void cls()
+{
+	DWORD n;
+	DWORD size;
+	COORD coord = { 0 };
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+	GetConsoleScreenBufferInfo(h, &csbi);
+	size = csbi.dwSize.X * csbi.dwSize.Y;
+	FillConsoleOutputCharacter(h, TEXT(' '), size, coord, &n);
+	GetConsoleScreenBufferInfo(h, &csbi);
+	FillConsoleOutputAttribute(h, csbi.wAttributes, size, coord, &n);
+	SetConsoleCursorPosition(h, coord);
+}
+
+/***************************************************************************************************
 **	prints the data members of a given critter
 ***************************************************************************************************/
 void displayCritterValues(Critter &critter)
@@ -338,7 +356,7 @@ void baseAssignment()
 ***************************************************************************************************/
 void extraCreditAssignment()
 {
-	cout << "THIS ASSIGNMENT INCLUDES EXTRA CREDIT" << endl << endl;
+	//cout << "THIS ASSIGNMENT INCLUDES EXTRA CREDIT" << endl << endl;
 
 	int rows;		// used to provide input for number of rows in the matrix
 	int columns;	// used to provide input for number of columns in the matrix
@@ -381,6 +399,8 @@ void extraCreditAssignment()
 	int timeSteps;
 	int counter = 0;
 
+	cls();
+
 	cout << "Starting Positions of Critters before any timesteps" << endl << endl;
 	m.printMatrix();
 	cout << endl;
@@ -398,13 +418,15 @@ void extraCreditAssignment()
 
 		for (int i = 0; i < timeSteps; i++)
 		{
-			cout << "Time Step " << counter + 1 << endl << endl;
+			cls();
+			cout << "TIME STEP " << counter + 1 << endl << endl;
 			m.moveCritters();
 			m.breedCritters();
 			m.starveDoodleBugs();
 			m.printMatrix();
 			counter++;
 			cout << endl;
+			Sleep(200);
 		}
 
 		cout << "Are you done? (1 for yes, 0 for no) ";
