@@ -13,6 +13,10 @@
 
 #include "Critter.h"
 
+#define EMPTY	' '
+#define ANT		'o'
+#define DBUG	'+'
+
 class DoodleBug : public Critter
 {
 private:

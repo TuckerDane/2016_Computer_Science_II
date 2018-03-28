@@ -325,6 +325,22 @@ Critter* Matrix::getMatPos(int row, int col)
 }
 
 /***************************************************************************************************
+**	set the color of the space on screen
+***************************************************************************************************/
+void Matrix::setColor(char bug)
+{
+	if (bug == ANT)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 9);	// ANTS are BLUE
+	}
+	else if (bug == DBUG)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);	// DOODLEBUGS are YELLOW
+	}
+	// else no bug, no change
+}
+
+/***************************************************************************************************
 **	a function which prints the 2d matrix and ant location
 ***************************************************************************************************/
 void Matrix::printMatrix()
@@ -335,12 +351,18 @@ void Matrix::printMatrix()
 		{
 			cout << " ";
 			if (getMatPos(i, j) == NULL)					// Print out that the cell is empty
-				cout << 'E';
+			{
+				cout << EMPTY;
+			}
 			else // critter
-				cout << this->matrix[i][j]->getType();		// Print out the type of the critter in the cell
+			{
+				setColor(this->matrix[i][j]->getType());						// set the color to be printed for the critter
+				cout << this->matrix[i][j]->getType();							// Print out the type of the critter in the cell
+			}
 		}
 		cout << endl;
 	}
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);	// set color back to white
 }
 
 /***************************************************************************************************
@@ -354,7 +376,7 @@ char* Matrix::around(Critter &c)
 	if ((c.getRowPos() - 1) < 0)													// if the position above is the border
 		direction[0] = 'B';															// set direction[0] to 'B' for Border
 	else if (getMatPos(c.getRowPos() - 1, c.getColPos()) == NULL)					// else if the position above is NULL
-		direction[0] = 'E';															// set direction[0] to 'E' for Empty
+		direction[0] = EMPTY;														// set direction[0] to 'E' for Empty
 	else																			// else the position above contains a critter
 		direction[0] = getMatPos(c.getRowPos() - 1, c.getColPos())->getType();		// set direction[0] to the critter type
 
@@ -362,7 +384,7 @@ char* Matrix::around(Critter &c)
 	if ((c.getColPos() + 1) > getMatSizeCol() - 1)										// if the position to the right is the border
 		direction[1] = 'B';															// set direction[1] to 'B' for Border
 	else if (getMatPos(c.getRowPos(), c.getColPos() + 1) == NULL)					// else if the position to the right is NULL
-		direction[1] = 'E';															// set direction[1] to 'E' for Empty
+		direction[1] = EMPTY;															// set direction[1] to 'E' for Empty
 	else																			// else the position to the right contains a critter
 		direction[1] = getMatPos(c.getRowPos(), c.getColPos() + 1)->getType();		// set direction[1] to the critter type
 
@@ -370,7 +392,7 @@ char* Matrix::around(Critter &c)
 	if ((c.getRowPos() + 1) > getMatSizeRow() - 1)									// if the position below is the border
 		direction[2] = 'B';															// set direction[2] to 'B' for Border
 	else if (getMatPos(c.getRowPos() + 1, c.getColPos()) == NULL)					// else if the position below is NULL
-		direction[2] = 'E';															// set direction[2] to 'E' for Empty
+		direction[2] = EMPTY;															// set direction[2] to 'E' for Empty
 	else																			// else the position below contains a critter
 		direction[2] = getMatPos(c.getRowPos() + 1, c.getColPos())->getType();		// set direction[2] to the critter type
 
@@ -378,7 +400,7 @@ char* Matrix::around(Critter &c)
 	if ((c.getColPos() - 1) < 0)													// if the position to the left is the border
 		direction[3] = 'B';															// set direction[3] to 'B' for Border
 	else if (getMatPos(c.getRowPos(), c.getColPos() - 1) == NULL)					// else if the position to the left is NULL
-		direction[3] = 'E';															// set direction[3] to 'E' for Empty
+		direction[3] = EMPTY;															// set direction[3] to 'E' for Empty
 	else																			// else the position to the left contains a critter
 		direction[3] = getMatPos(c.getRowPos(), c.getColPos() - 1)->getType();		// set direction[3] to the critter type
 
@@ -397,7 +419,7 @@ void Matrix::moveCritters()
 		{
 			if (getMatPos(i, j) != NULL)																				// if the matrix position is not empty (ie has a critter)
 			{
-				if (getMatPos(i, j)->getType() == 'X')																	// and if the critter is a doodleBug
+				if (getMatPos(i, j)->getType() == DBUG)																	// and if the critter is a doodleBug
 				{
 					if (getMatPos(i, j)->getMoved() == false)															// and if the critter at the matrix position has not already moved during this step
 					{
@@ -422,7 +444,7 @@ void Matrix::moveCritters()
 		{
 			if (getMatPos(i, j) != NULL)																				// if the matrix position is not empty (ie has a critter)
 			{
-				if (getMatPos(i, j)->getType() == 'O')																	// and if the critter is a doodleBug
+				if (getMatPos(i, j)->getType() == ANT)																	// and if the critter is a doodleBug
 				{
 					if (getMatPos(i, j)->getMoved() == false)															// and if the critter at the matrix position has not already moved during this step
 					{
@@ -494,7 +516,7 @@ void Matrix::starveDoodleBugs()
 		{
 			if (getMatPos(i, j) != NULL)														// if the matrix position is not empty (ie has a critter)
 			{
-				if (getMatPos(i, j)->getType() == 'X')											// and if the matrix position contains a DoodleBug
+				if (getMatPos(i, j)->getType() == DBUG)											// and if the matrix position contains a DoodleBug
 				{	
 					Critter* tempD = new Critter;												// create a temporary null critter
 					tempD = this->getMatPos(i, j);												// set the temporary doodleBug to the address pointed to in the matrix at i, j

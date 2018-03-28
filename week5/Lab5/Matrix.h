@@ -17,6 +17,10 @@
 #include "Ant.h"
 #include "DoodleBug.h"
 
+#define EMPTY	' '
+#define ANT		'o'
+#define DBUG	'+'
+
 class Matrix
 {
 private:
@@ -40,6 +44,7 @@ public:
 	int	getMatSizeCol();									// returns "mSizeCol"
 	int getOpenSlots();										// returns the number of open slots in the matrix
 	Critter* getMatPos(int row, int col);					// returns a pointer to what is at the position stored in the matrix at x, y
+	void setColor(char bug);									// changes the print color
 	void printMatrix();										// prints the matrix
 	char* around(Critter &c);								// returns the type of what is around Critter C
 	void moveCritters();									// moves the critters assigned to the matrix
