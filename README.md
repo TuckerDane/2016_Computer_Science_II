@@ -1,4 +1,4 @@
-# 2016_Computer_Science_II
+# 2016 Computer Science II
 coursework from my Computer Science II course at OSU
 ## Week 1
 #### Assignment 1
